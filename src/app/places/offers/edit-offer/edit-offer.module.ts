@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { EditOfferPageRoutingModule } from './edit-offer-routing.module';
-
 import { EditOfferPage } from './edit-offer.page';
 
 @NgModule({
@@ -13,7 +9,6 @@ import { EditOfferPage } from './edit-offer.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    EditOfferPageRoutingModule
   ],
   declarations: [EditOfferPage]
 })

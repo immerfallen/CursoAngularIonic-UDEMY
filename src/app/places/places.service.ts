@@ -33,5 +33,9 @@ get places() {
     return [...this._places];
   }
 
+  getPlaces(id: string): Place{
+    return {...this._places.find(p=> p.id === id)} as Place;
+  }
+
   constructor() {}
 }

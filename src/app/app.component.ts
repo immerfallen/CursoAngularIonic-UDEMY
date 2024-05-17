@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { AuthService } from './auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +9,13 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private menuController: MenuController) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
- 
-  onLogout(){
-
+  onLogout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/auth');
   }
 }

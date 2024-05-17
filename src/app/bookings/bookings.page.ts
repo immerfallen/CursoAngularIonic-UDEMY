@@ -5,11 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './bookings.page.html',
   styleUrls: ['./bookings.page.scss'],
 })
-export class BookingsPage implements OnInit {
+export class BookingsPage  {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
 }

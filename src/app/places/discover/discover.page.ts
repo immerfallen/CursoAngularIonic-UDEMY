@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
+import { SegmentChangeEventDetail } from '@ionic/angular';
 
 @Component({
   selector: 'app-discover',
@@ -14,6 +15,14 @@ loadedPlaces: Place[] = [] as Place[];
 
   ngOnInit() {
     this.loadedPlaces = this.placesService.places;
+  }
+
+  onIonInfinite(event: any){
+    console.log(event)
+  }
+
+  onFilterUpdate(event: CustomEvent<SegmentChangeEventDetail>){
+console.log(event.detail);
   }
 
 }

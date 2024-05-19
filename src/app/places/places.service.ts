@@ -27,6 +27,69 @@ export class PlacesService {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
       99.99
     ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'Not your average city trip',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      99.99
+    ),
   ];
 
 get places() {

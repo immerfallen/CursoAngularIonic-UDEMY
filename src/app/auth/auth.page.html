@@ -4,6 +4,6 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
- <ion-button color="primary" (click)="onLogin()">Login</ion-button>
+<ion-content>  
+ <ion-button color="primary" (click)="onLogin()" *ngIf="!isLoading">Login</ion-button>
 </ion-content>

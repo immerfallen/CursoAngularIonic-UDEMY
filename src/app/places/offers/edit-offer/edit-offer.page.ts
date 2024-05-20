@@ -41,6 +41,9 @@ form: FormGroup = {} as FormGroup;
   }
 
   onEditOffer(){
+    if(!this.form.valid){
+      return;
+    }
 console.log(this.form);
   }
 }

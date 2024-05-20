@@ -4,33 +4,64 @@
       <ion-back-button defaultHref="/places/tabs/offers"></ion-back-button>
     </ion-buttons>
     <ion-title>New Offer</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCreateOffer()"
+        ><ion-icon name="checkmark" slot="icon-only"></ion-icon
+      ></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" size-md="6" offset-md="3">
+<ion-content class="ion-padding">
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label position="floating">Title</ion-label>
-          <ion-input type="text" autocomplete autocorrect></ion-input>
-        </ion-item>
+      <ion-col size-md="6" offset-md="3">
+        <ion-input
+          type="text"
+          autocomplete
+          autocorrect
+          label="Title"
+          required
+          labelPlacement="floating"
+          errorText="Enter a title"
+          helperText="Enter a title"
+        ></ion-input>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label position="floating">Short Description</ion-label>
-          <ion-textarea rows="3"></ion-textarea>
-        </ion-item>
+      <ion-col size-md="6" offset-md="3">
+        <ion-textarea
+          rows="3"
+          label="Short Description"
+          labelPlacement="floating"
+          errorText="Enter a description"
+          helperText="Enter a description"
+          required
+        ></ion-textarea>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label position="floating">Price</ion-label>
-          <ion-input type="number" ></ion-input>
-        </ion-item>
+      <ion-col size-md="6" offset-md="3">
+        <ion-input
+          type="number"
+          label="Price"
+          labelPlacement="floating"
+          errorText="Enter a price"
+          helperText="Enter a price"
+          required
+        ></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-md="3" offset-md="3">
+        <ion-datetime>
+          <span slot="title" color="primary">Available from</span></ion-datetime
+        >
+      </ion-col>
+      <ion-col size-md="3">
+        <ion-datetime>
+          <span slot="title" color="primary">Available to</span></ion-datetime
+        >
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -9,4 +9,8 @@ export class NewOfferPage  {
 
   constructor() { } 
 
+  onCreateOffer(){
+    
+  }
+
 }

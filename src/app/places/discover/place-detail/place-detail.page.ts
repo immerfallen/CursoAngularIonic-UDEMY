@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActionSheetController,
@@ -8,14 +8,16 @@ import {
 import { PlacesService } from '../../places.service';
 import { Place } from '../../place.model';
 import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-booking.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-place-detail',
   templateUrl: './place-detail.page.html',
   styleUrls: ['./place-detail.page.scss'],
 })
-export class PlaceDetailPage implements OnInit {
-  place: Place = {} as Place;
+export class PlaceDetailPage implements OnInit, OnDestroy {
+  place!: Place;
+  private placeSub!: Subscription;
 
   constructor(
     private navCtlr: NavController,
@@ -25,47 +27,57 @@ export class PlaceDetailPage implements OnInit {
     private actionCtrl: ActionSheetController
   ) {}
 
+  ngOnDestroy(){
+    if(this.placeSub){
+      this.placeSub.unsubscribe();
+    }
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('placeId')) {
         this.navCtlr.navigateBack('/place/tabs/discover');
         return;
       }
-      this.place = this.placesService.getPlaces(
-        paramMap.get('placeId') as string
-      );
+     this.placeSub = this.placesService
+        .getPlaces(paramMap.get('placeId')as string)
+        .subscribe((place) => {
+          this.place = place;
+        });
     });
   }
 
   onBookPlace() {
     // this.router.navigateByUrl('/places/tabs/discover')
     // this.navCtlr.navigateBack('/places/tabs/discover');
-    this.actionCtrl.create({
-      buttons: [
-        {
-          text: 'Select Date',
-          handler: () => {
-            this.openBookModal('select');
+    this.actionCtrl
+      .create({
+        buttons: [
+          {
+            text: 'Select Date',
+            handler: () => {
+              this.openBookModal('select');
+            },
           },
-        },
-        {
-          text: 'Random Date',
-          handler: () => {
-            this.openBookModal('random');
+          {
+            text: 'Random Date',
+            handler: () => {
+              this.openBookModal('random');
+            },
           },
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-      ],
-    }).then(actionSheetEl=> {
-      actionSheetEl.present();
-    });
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ],
+      })
+      .then((actionSheetEl) => {
+        actionSheetEl.present();
+      });
   }
 
   openBookModal(mode: 'select' | 'random') {
-    console.log(mode)
+    console.log(mode);
     this.modalCtrl
       .create({
         component: CreateBookingComponent,

@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 import { SegmentChangeEventDetail } from '@ionic/angular';
+import { take } from 'rxjs/operators';
+import { Subscribable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss'],
 })
-export class DiscoverPage implements OnInit {
-loadedPlaces: Place[] = [] as Place[];
+export class DiscoverPage implements OnInit, OnDestroy {
+  loadedPlaces: Place[] = [] as Place[];
+  private placesSub!: Subscription;
 
-  constructor(private placesService: PlacesService) { }
+  constructor(private placesService: PlacesService) {}
 
   ngOnInit() {
-    this.loadedPlaces = this.placesService.places;
+    this.placesSub = this.placesService.places.subscribe((places) => {
+      this.loadedPlaces = places;
+    });
   }
 
-  onIonInfinite(event: any){
-    console.log(event)
+  ngOnDestroy() {
+    if (this.placesSub) {
+      this.placesSub.unsubscribe();
+    }
   }
 
-  onFilterUpdate(event: CustomEvent<SegmentChangeEventDetail>){
-console.log(event.detail);
+  onIonInfinite(event: any) {
+    console.log(event);
   }
 
+  onFilterUpdate(event: CustomEvent<SegmentChangeEventDetail>) {
+    console.log(event.detail);
+  }
 }

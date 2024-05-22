@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Place } from './place.model';
+import { AuthService } from '../auth/auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlacesService {
-  private _places: Place[] = [
+  private _places: Place[] = new BehaviorSubject<Place[]> [
     new Place(
       'p1',
       'Manahattan Mansion',
       'In the heart of New Yourk City',
       'https://thumbs.6sqft.com/wp-content/uploads/2014/06/21042533/Carnegie-Mansion-nyc.jpg',
-      249.90,
+      249.9,
       new Date('2024-01-01'),
-      new Date('2024-12-31')
+      new Date('2024-12-31'),
+      'abc'
     ),
     new Place(
       'p2',
-      'L\'Amour Toujours',
+      "L'Amour Toujours",
       'A romantic place in Paris',
       'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcSZyDvGG91YFGXqLY3Gt38Y6AEhtI9qKzGGaimzN3shUA11aGwmymMu7Wwv6CQ3DMQh',
-      389.90,
+      389.9,
       new Date('2024-01-01'),
-      new Date('2024-12-31')
+      new Date('2024-12-31'),
+      'abc'
     ),
     new Place(
       'p3',
@@ -31,18 +35,38 @@ export class PlacesService {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
       99.99,
       new Date('2024-01-01'),
-      new Date('2024-12-31')
+      new Date('2024-12-31'),
+      'abc'
     ),
-    
   ];
 
-get places() {
+  get places() {
     return [...this._places];
   }
 
-  getPlaces(id: string): Place{
-    return {...this._places.find(p=> p.id === id)} as Place;
+  getPlaces(id: string): Place {
+    return { ...this._places.find((p) => p.id === id) } as Place;
   }
 
-  constructor() {}
+  addPlace(
+    title: string,
+    description: string,
+    price: number,
+    dateFrom: Date,
+    dateTo: Date
+  ) {
+    const newPlace = new Place(
+      Math.random().toString(),
+      title,
+      description,
+      'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcSZyDvGG91YFGXqLY3Gt38Y6AEhtI9qKzGGaimzN3shUA11aGwmymMu7Wwv6CQ3DMQh',
+      price,
+      dateFrom,
+      dateTo,
+      this.authService.userId
+    );
+    this._places.push(newPlace);    
+  }
+
+  constructor(private authService: AuthService) {}
 }

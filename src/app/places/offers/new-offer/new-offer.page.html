@@ -5,71 +5,73 @@
     </ion-buttons>
     <ion-title>New Offer</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid"
-        ><ion-icon name="checkmark" slot="icon-only"></ion-icon
-      ></ion-button>
+      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <form [formGroup]="form">
     <ion-grid>
       <ion-row>
-        <ion-col size-md="6" offset-md="3">
+        <ion-col size-sm="6" offset-sm="3">
           <ion-input
-            formControlName="title"
+            label="Title"
+            labelPlacement="floating"
             type="text"
             autocomplete
             autocorrect
-            label="Title"
-            required
-            labelPlacement="floating"
-            errorText="Invalid title"
-            helperText="Enter a title"
+            errorText="Title is required"
+            formControlName="title"
           ></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-md="6" offset-md="3">
+        <ion-col size-sm="6" offset-sm="3">
           <ion-textarea
-          formControlName="description"
             rows="3"
-            label="Short Description"
+            label="Description"
             labelPlacement="floating"
-            errorText="Invalid description"
-            helperText="Enter a description"
+            errorText="Description is required"
             required
+            formControlName="description"
           ></ion-textarea>
         </ion-col>
       </ion-row>
+
       <ion-row>
-        <ion-col size-md="6" offset-md="3">
+        <ion-col size-sm="6" offset-sm="3">
           <ion-input
-          formControlName="price"
-            type="number"
+            errorText="Price is required"
             label="Price"
             labelPlacement="floating"
-            errorText="Invalid price"
-            helperText="Enter a price"
-            required
+            type="number"
+            formControlName="price"
           ></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-md="3" offset-md="3">
-          <ion-datetime 
-          formControlName="dateFrom">
-            <span slot="title" color="primary"
-              >Available from</span
-            ></ion-datetime
-          >
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Available from</ion-label>
+            <ion-datetime
+              min="2019-01-01"
+              max="2025-12-31"
+              formControlName="dateFrom"
+            ></ion-datetime>
+          </ion-item>
         </ion-col>
-        <ion-col size-md="3">
-          <ion-datetime
-          formControlName="dateTo">
-            <span slot="title" color="primary">Available to</span></ion-datetime
-          >
+        <ion-col size-sm="3">
+          <ion-item>
+            <ion-label position="floating">Available to</ion-label>
+            <ion-datetime
+              min="2019-01-02"
+              max="2025-12-31"
+              formControlName="dateTo"
+            ></ion-datetime>
+          </ion-item>
         </ion-col>
       </ion-row>
     </ion-grid>

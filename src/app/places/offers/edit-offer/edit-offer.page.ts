@@ -65,7 +65,7 @@ export class EditOfferPage implements OnInit, OnDestroy {
       .then((loadingEl) => {
         loadingEl.present();
         this.placesService
-          .editOffer(
+          .updatePlace(
             this.place.id,
             this.form.value.title,
             this.form.value.description

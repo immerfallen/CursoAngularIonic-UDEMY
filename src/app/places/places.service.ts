@@ -1,55 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Place } from './place.model';
-import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take, map, tap, delay } from 'rxjs/operators';
 
+import { Place } from './place.model';
+import { AuthService } from '../auth/auth.service';
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PlacesService {
   private _places = new BehaviorSubject<Place[]>([
     new Place(
       'p1',
-      'Manahattan Mansion',
-      'In the heart of New Yourk City',
-      'https://thumbs.6sqft.com/wp-content/uploads/2014/06/21042533/Carnegie-Mansion-nyc.jpg',
-      249.9,
-      new Date('2024-01-01'),
-      new Date('2024-12-31'),
-      'abcd'
+      'Manhattan Mansion',
+      'In the heart of New York City.',
+      'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',
+      149.99,
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
+      'abc'
     ),
     new Place(
       'p2',
       "L'Amour Toujours",
-      'A romantic place in Paris',
-      'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcSZyDvGG91YFGXqLY3Gt38Y6AEhtI9qKzGGaimzN3shUA11aGwmymMu7Wwv6CQ3DMQh',
-      389.9,
-      new Date('2024-01-01'),
-      new Date('2024-12-31'),
+      'A romantic place in Paris!',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg',
+      189.99,
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
       'abc'
     ),
     new Place(
       'p3',
       'The Foggy Palace',
-      'Not your average city trip',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg/800px-Foggy_Day_Neuschwanstein_Castle_%28229936735%29.jpeg?20181015014702',
+      'Not your average city trip!',
+      'https://upload.wikimedia.org/wikipedia/commons/0/01/San_Francisco_with_two_bridges_and_the_fog.jpg',
       99.99,
-      new Date('2024-01-01'),
-      new Date('2024-12-31'),
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
       'abc'
-    ),
+    )
   ]);
 
   get places() {
     return this._places.asObservable();
   }
 
+  constructor(private authService: AuthService) {}
+
   getPlaces(id: string): Observable<Place> {
     return this.places.pipe(
       take(1),
-      map((places) => {
-        return { ...(places.find((p) => p, id == id) as Place) };
+      map(places => {
+        return { ...places.find(p => p.id === id) as Place };
       })
     );
   }
@@ -65,7 +68,7 @@ export class PlacesService {
       Math.random().toString(),
       title,
       description,
-      'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcSZyDvGG91YFGXqLY3Gt38Y6AEhtI9qKzGGaimzN3shUA11aGwmymMu7Wwv6CQ3DMQh',
+      'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',
       price,
       dateFrom,
       dateTo,
@@ -74,25 +77,21 @@ export class PlacesService {
     return this.places.pipe(
       take(1),
       delay(1000),
-      tap((places) => {
+      tap(places => {
         this._places.next(places.concat(newPlace));
       })
     );
   }
 
-  constructor(private authService: AuthService) {}
-
-  editOffer(placeId: string, title: string, description: string) {
+  updatePlace(placeId: string, title: string, description: string) {
     return this.places.pipe(
       take(1),
       delay(1000),
-      tap((places) => {
-        const updatePlaceIndex = places.findIndex(
-          (place) => place.id === placeId
-        );
+      tap(places => {
+        const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
         const updatedPlaces = [...places];
-        const oldPlace = updatedPlaces[updatePlaceIndex];
-        updatedPlaces[updatePlaceIndex] = new Place(
+        const oldPlace = updatedPlaces[updatedPlaceIndex];
+        updatedPlaces[updatedPlaceIndex] = new Place(
           oldPlace.id,
           title,
           description,

@@ -1,10 +1,43 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, of } from 'rxjs';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 
 import { Place } from './place.model';
 import { AuthService } from '../auth/auth.service';
-import { HttpClient } from '@angular/common/http';
+
+// [
+//   new Place(
+//     'p1',
+//     'Manhattan Mansion',
+//     'In the heart of New York City.',
+//     'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',
+//     149.99,
+//     new Date('2019-01-01'),
+//     new Date('2019-12-31'),
+//     'abc'
+//   ),
+//   new Place(
+//     'p2',
+//     "L'Amour Toujours",
+//     'A romantic place in Paris!',
+//     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg',
+//     189.99,
+//     new Date('2019-01-01'),
+//     new Date('2019-12-31'),
+//     'abc'
+//   ),
+//   new Place(
+//     'p3',
+//     'The Foggy Palace',
+//     'Not your average city trip!',
+//     'https://upload.wikimedia.org/wikipedia/commons/0/01/San_Francisco_with_two_bridges_and_the_fog.jpg',
+//     99.99,
+//     new Date('2019-01-01'),
+//     new Date('2019-12-31'),
+//     'abc'
+//   )
+// ]
 
 interface PlaceData {
   availableFrom: string;
@@ -17,7 +50,7 @@ interface PlaceData {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PlacesService {
   private _places = new BehaviorSubject<Place[]>([]);
@@ -28,22 +61,13 @@ export class PlacesService {
 
   constructor(private authService: AuthService, private http: HttpClient) {}
 
-  getPlaces(id: string): Observable<Place> {
-    return this.places.pipe(
-      take(1),
-      map((places) => {
-        return { ...(places.find((p) => p.id === id) as Place) };
-      })
-    );
-  }
-
   fetchPlaces() {
     return this.http
       .get<{ [key: string]: PlaceData }>(
         'https://ionic-angular-34440-default-rtdb.firebaseio.com/offered-places.json'
       )
       .pipe(
-        map((resData) => {
+        map(resData => {
           const places = [];
           for (const key in resData) {
             if (resData.hasOwnProperty(key)) {
@@ -62,9 +86,31 @@ export class PlacesService {
             }
           }
           return places;
+          // return [];
         }),
-        tap((places) => {
+        tap(places => {
           this._places.next(places);
+        })
+      );
+  }
+
+  getPlaces(id: string) {
+    return this.http
+      .get<PlaceData>(
+        `https://ionic-angular-34440-default-rtdb.firebaseio.com/offered-places/${id}.json`
+      )
+      .pipe(
+        map(placeData => {
+          return new Place(
+            id,
+            placeData.title,
+            placeData.description,
+            placeData.imageUrl,
+            placeData.price,
+            new Date(placeData.availableFrom),
+            new Date(placeData.availableTo),
+            placeData.userId
+          );
         })
       );
   }
@@ -87,19 +133,21 @@ export class PlacesService {
       dateTo,
       this.authService.userId
     );
-
     return this.http
       .post<{ name: string }>(
         'https://ionic-angular-34440-default-rtdb.firebaseio.com/offered-places.json',
-        { ...newPlace, id: null }
+        {
+          ...newPlace,
+          id: null
+        }
       )
       .pipe(
-        switchMap((resData) => {
+        switchMap(resData => {
           generatedId = resData.name;
           return this.places;
         }),
         take(1),
-        tap((places) => {
+        tap(places => {
           newPlace.id = generatedId;
           this._places.next(places.concat(newPlace));
         })
@@ -107,7 +155,7 @@ export class PlacesService {
     // return this.places.pipe(
     //   take(1),
     //   delay(1000),
-    //   tap((places) => {
+    //   tap(places => {
     //     this._places.next(places.concat(newPlace));
     //   })
     // );
@@ -115,11 +163,17 @@ export class PlacesService {
 
   updatePlace(placeId: string, title: string, description: string) {
     let updatedPlaces: Place[];
-
-    return  this.places.pipe(
+    return this.places.pipe(
       take(1),
-      switchMap((places) => {
-        const updatedPlaceIndex = places.findIndex((pl) => pl.id === placeId);
+      switchMap(places => {
+        if (!places || places.length <= 0) {
+          return this.fetchPlaces();
+        } else {
+          return of(places);
+        }
+      }),
+      switchMap(places => {
+        const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
         updatedPlaces = [...places];
         const oldPlace = updatedPlaces[updatedPlaceIndex];
         updatedPlaces[updatedPlaceIndex] = new Place(
@@ -139,14 +193,7 @@ export class PlacesService {
       }),
       tap(() => {
         this._places.next(updatedPlaces);
-        console.log(this._places)
       })
-    );
-
-    return this.places.pipe(
-      take(1),
-      delay(1000),
-      tap((places) => {})
     );
   }
 }

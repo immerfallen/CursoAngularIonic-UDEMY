@@ -23,6 +23,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   place!: Place;
   private placeSub!: Subscription;
   isBookable = false;
+  isLoading= false;
 
   constructor(
     private navCtrl: NavController,
@@ -41,12 +42,14 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/places/tabs/discover');
         return;
       }
+      this.isLoading = true;
       this.placeSub = this.placesService
         .getPlaces(paramMap.get('placeId') as string)
         .subscribe(place => {
           this.place = place;
           this.isBookable = place.userId !== this.authService.userId;
         });
+        this.isLoading = false;
     });
   }
 
